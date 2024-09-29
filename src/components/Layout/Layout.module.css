@@ -1,0 +1,25 @@
+.header {
+    background-color: #f8f9fa;
+    padding: 10px;
+}
+
+.navList {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.navLink {
+    text-decoration: none;
+    font-size: 18px;
+    color: #007bff;
+}
+
+.navLink.active {
+    font-weight: bold;
+    color: #0056b3;
+}
+
+main {
+    padding: 20px;
+}

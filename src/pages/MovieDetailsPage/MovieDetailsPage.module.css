@@ -1,0 +1,12 @@
+.movieDetails {
+    padding: 20px;
+}
+
+.movieDetails img {
+    width: 300px;
+    border-radius: 5px;
+}
+
+.cast {
+    margin-right: 15px;
+}
