@@ -1,54 +1,54 @@
-import React, { useEffect, useState, Suspense, lazy } from 'react';
-import { useParams, Link, Outlet, useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useParams, useLocation, Link, Outlet } from 'react-router-dom';
 import { fetchMovieDetails } from '../../api/tmdbAPI';
 import styles from './MovieDetailsPage.module.css';
 
 const MovieDetailsPage = () => {
   const { movieId } = useParams();
-  const location = useLocation();
   const [movie, setMovie] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const location = useLocation();
+  const backLink = location.state?.from || '/movies';
 
   useEffect(() => {
-    const getMovieDetails = async () => {
+    const fetchDetails = async () => {
       try {
         const data = await fetchMovieDetails(movieId);
         setMovie(data);
-      } catch (err) {
-        setError('Failed to load movie details');
-      } finally {
-        setLoading(false);
+      } catch (error) {
+        console.error('Failed to fetch movie details:', error);
       }
     };
 
-    getMovieDetails();
+    fetchDetails();
   }, [movieId]);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
+  if (!movie) return <p>Loading...</p>;
+
+  const imageUrl = movie.poster_path
+    ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+    : 'https://via.placeholder.com/500x750?text=No+Image';
 
   return (
-    <div className={styles.movieDetails}>
-      <h1>{movie.title}</h1>
-      <img
-        src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-        alt={movie.title}
-      />
-      <p>{movie.overview}</p>
-      <Link to={location.state?.from ?? '/movies'}>Go back</Link>
-
-      <div className={styles.additionalLinks}>
-        <Link to="cast" className={styles.cast}>Cast</Link>
-        <Link to="reviews">Reviews</Link>
+    <div className={styles.movieDetailsPage}>
+      <Link to={backLink}>Go back</Link>
+      <div className={styles.movieInfo}>
+        <img src={imageUrl} alt={movie.title} className={styles.moviePoster} />
+        <div className={styles.movieText}>
+          <h1>{movie.title}</h1>
+          <p>{movie.overview}</p>
+        </div>
       </div>
 
-      <Suspense fallback={<p>Loading...</p>}>
-        <Outlet />
-      </Suspense>
+      <nav>
+        <Link to="cast" className={styles.cast}>Cast</Link>
+        <Link to="reviews">Reviews</Link>
+      </nav>
+
+      <Outlet /> 
     </div>
   );
 };
 
 export default MovieDetailsPage;
+
 

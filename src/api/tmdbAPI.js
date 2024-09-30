@@ -19,14 +19,33 @@ export const fetchTrendingMovies = async () => {
   return response.data.results;
 };
 
+// export const searchMovies = async (query) => {
+//   const response = await axios.get(`${BASE_URL}/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(
+//       query
+//     )}&include_adult=false&language=en-US&page=1`,
+//     options
+//   );
+//   return response.data.results;
+// };
+
+
+
 export const searchMovies = async (query) => {
-  const response = await axios.get(`${BASE_URL}/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(
-      query
-    )}&include_adult=false&language=en-US&page=1`,
-    options
-  );
-  return response.data.results;
+  try {
+    const response = await axios.get(`${BASE_URL}/search/movie`, {
+      params: {
+        api_key: API_KEY,
+        query: query,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching movies:', error);
+    throw error;
+  }
 };
+
+
 
 export const fetchMovieDetails = async (movieId) => {
   const response = await axios.get(`${BASE_URL}/movie/${movieId}?language=en-US&api_key=${API_KEY}`,
