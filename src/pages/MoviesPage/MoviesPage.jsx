@@ -47,9 +47,10 @@ const MoviesPage = () => {
         <button type="submit">Search</button>
       </form>
 
+          {query && !movies.length && <p>No movies found</p>}
       {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}
-      {!loading && !error && <MovieList movies={movies} />}
+      {movies.length > 0 && <MovieList movies={movies} />}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useLocation, Link, Outlet } from 'react-router-dom';
 import { fetchMovieDetails } from '../../api/tmdbAPI';
 import styles from './MovieDetailsPage.module.css';
@@ -7,7 +7,7 @@ const MovieDetailsPage = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
   const location = useLocation();
-  const backLink = location.state?.from || '/movies';
+  const backLink = useRef(location.state?.from || '/movies');
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -30,7 +30,7 @@ const MovieDetailsPage = () => {
 
   return (
     <div className={styles.movieDetailsPage}>
-      <Link to={backLink}>Go back</Link>
+      <Link to={backLink.current}>Go back</Link>
       <div className={styles.movieInfo}>
         <img src={imageUrl} alt={movie.title} className={styles.moviePoster} />
         <div className={styles.movieText}>
