@@ -6,7 +6,7 @@ const MovieList = ({ movies }) => {
   const location = useLocation();
 
   if (!movies || movies.length === 0) {
-    return <p>No movies found.</p>; // Відображаємо повідомлення, якщо немає фільмів
+      return <p>No movies found.</p>;
   }
 
   return (
@@ -23,7 +23,7 @@ const MovieList = ({ movies }) => {
 };
 
 MovieList.propTypes = {
-  movies: PropTypes.array.isRequired, // Обов'язковий prop
+  movies: PropTypes.array.isRequired, 
 };
 
 export default MovieList;

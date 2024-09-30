@@ -11,7 +11,6 @@ const MoviesPage = () => {
   const [error, setError] = useState(null);
   const query = searchParams.get('query') || '';
 
-  // Виконуємо пошук при зміні параметра запиту
   useEffect(() => {
     if (query) {
       const fetchMovies = async () => {
@@ -19,7 +18,7 @@ const MoviesPage = () => {
         setError(null);
         try {
           const data = await searchMovies(query);
-          setMovies(data.results || []); // Перевіряємо наявність результатів
+          setMovies(data.results || []); 
         } catch (error) {
           setError('Failed to fetch movies');
         } finally {
